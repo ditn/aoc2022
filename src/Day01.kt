@@ -1,34 +1,12 @@
-import java.lang.Integer.max
-
 fun main() {
-    fun part1(input: List<String>): Int {
-        var currentMax = 0
-        var localSum = 0
 
-        for (value in input) {
-            if (value.isEmpty()) {
-                currentMax = max(currentMax, localSum)
-                localSum = 0
-            } else {
-                localSum += value.toInt()
-            }
-        }
+    fun part1(input: List<String>): Int = input
+        .chunkToCalorieTotal()
+        .max()
 
-        return currentMax
-    }
-
-    fun part2(input: List<String>): Int = buildList {
-        var localSum = 0
-
-        for (value in input) {
-            if (value.isEmpty()) {
-                add(localSum)
-                localSum = 0
-            } else {
-                localSum += value.toInt()
-            }
-        }
-    }.sorted()
+    fun part2(input: List<String>): Int = input
+        .chunkToCalorieTotal()
+        .sorted()
         .takeLast(3)
         .sum()
 
@@ -39,3 +17,6 @@ fun main() {
     println(part1(input))
     println(part2(input))
 }
+
+private fun List<String>.chunkToCalorieTotal() = chunkedBy(String::isEmpty)
+    .map { it.map(String::toInt).sum() }
